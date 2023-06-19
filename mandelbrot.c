@@ -87,9 +87,9 @@ int main(int argc, char **argv)
 	 * paint it black (whitespace)
 	 */
 	double x, y;
-	for(y=-2;y<2;y+=0.10)		/* 40 lines tall */
+	for(y=-2.4;y<2.4;y+=0.10)		/* 48 lines tall */
 	{
-		for(x=-2;x<2;x+=0.04)	/* 100 columns wide */
+		for(x=-2.8;x<1.8;x+=0.04)	/* 115 columns wide */
 		{
 			/* complex c is chosen according to the position in the coordinate system. We
 			   simply use -2 .. 2 */
@@ -100,30 +100,37 @@ int main(int argc, char **argv)
 						
 			/* Maximum iteration depth is 100 */
 			int div=0, iter=0;
+			double modulus;
 			for(iter=0;iter<100;iter++)
 			{
 				r=func1(&r,&c2);
-				if(modulus_complex(&r)>100)
+				modulus=modulus_complex(&r);
+				if(modulus>100)
 				{
-					/* its diverging, set at which iteration we detected the 
-					   divergation and exit the iteration loop */
-					div=iter;
+					/* we detected divergation, so just break the loop */
 					break;
 				}
 			}
 			
-			/* Depending on the level we broke out of the iteration we use different
-			   symbols to draw the pixel */
-			if(div==0)
-				fprintf(stdout," ");
-			else if(div>0 && div<=25)
-				fprintf(stdout,".");
-			else if(div>25 && div<=50)
+			/* Depending on the level we broke out of the iteration and the modulus of the orbit's highest indexed item
+			   (the last one we calculated) we use different symbols to draw the pixel */
+			if(iter<=25)
+			{
+				if(modulus<250) 
+					fprintf(stdout,".");
+				else if(modulus>=250 && modulus <500)
+					fprintf(stdout,"/");
+				else 
+					fprintf(stdout,"X");
+			}
+			else if(iter>25 && iter<=50)
 				fprintf(stdout,":");
-			else if(div>50 && div<=75)
+			else if(iter>50 && iter<=75)
 				fprintf(stdout,"*");
-			else
+			else if(iter>75 && iter<100)
 				fprintf(stdout,"@");
+			else
+				fprintf(stdout," ");	/* it's not diverging; The mandelbrot set is the set of all orbits not diverging */
 		}
 		fprintf(stdout,"\n");
 	}
