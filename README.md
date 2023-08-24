@@ -9,3 +9,6 @@ It's a small application for displaying the famous Mandelbrot set. It's written 
 | Intel 386DX/33    | Intel 387/33 | 153.35 seconds      | The device i actually used to develop this |
 | Intel 486DX2/50   | Integrated   | 39.34 seconds       |                                            |
 | Intel Pentium 100 | Integrated   | 9.56 seconds        | Windows 95                                 |
+
+# Build it
+It's written in Borland Turbo C++ 3.1 on MS-DOS. Just open the project file and select Compile->Build from the menu.
